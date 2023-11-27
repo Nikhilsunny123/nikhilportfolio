@@ -26,17 +26,31 @@ adminProjectsRouter.post(
         });
         console.log(newProject);
         const newProjectResp = await newProject.save();
-        res
-          .status(200)
-          .json({
-            message: "Project added successfully",
-            data: newProjectResp,
-          });
+        res.status(200).json({
+          message: "Project added successfully",
+          data: newProjectResp,
+        });
       }
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
   }
 );
+
+//view projects
+
+adminProjectsRouter.post("/", async (req, res) => {
+  try {
+    console.log("working");
+
+    const projectModel = await Project.find({});
+
+    res.status(200).json({
+      data: projectModel,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 export default adminProjectsRouter;

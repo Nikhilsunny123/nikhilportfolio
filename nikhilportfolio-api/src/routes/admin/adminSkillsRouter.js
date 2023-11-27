@@ -28,4 +28,21 @@ adminSkillsRouter.post("/add", async (req, res) => {
   }
 });
 
+//view skills
+//view projects
+
+adminSkillsRouter.post("/", async (req, res) => {
+  try {
+    console.log("working");
+
+    const skillsModel = await Skills.find({});
+
+    res.status(200).json({
+      data: skillsModel,
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 export default adminSkillsRouter;

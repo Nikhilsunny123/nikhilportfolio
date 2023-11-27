@@ -2,10 +2,11 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import Project from "../../models/projects";
+import uploadToImgur from "../../helper/helper";
 
 const adminProjectsRouter = express.Router();
 
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
   destination: (req, file, cb) => {
     if (file.fieldname === "image") {
       cb(null, "uploads");
@@ -31,8 +32,9 @@ adminProjectsRouter.post(
     try {
       console.log("working");
       const { title, description, projectUrl } = req.body;
+      const fileBuffer = req.file.buffer;
+      const imgurResponse = await uploadToImgur(fileBuffer);
 
-      const image =  req.file;
       const projectModel = await Project.findOne({ title });
       if (projectModel !== null) {
         res.status(400).json({ message: "Project already exist" });
@@ -41,7 +43,7 @@ adminProjectsRouter.post(
           title,
           description,
           projectUrl,
-          image: image,
+          image: imgurResponse.data.data.link,
         });
         console.log(newProject);
         const newProjectResp = await newProject.save();

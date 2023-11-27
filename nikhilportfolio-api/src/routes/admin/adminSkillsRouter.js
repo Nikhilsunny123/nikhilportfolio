@@ -29,7 +29,6 @@ adminSkillsRouter.post("/add", async (req, res) => {
 });
 
 //view skills
-//view projects
 
 adminSkillsRouter.post("/", async (req, res) => {
   try {

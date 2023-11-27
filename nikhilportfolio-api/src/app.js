@@ -1,8 +1,12 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-import connectDB from "./db";
+
 import dotenv from "dotenv";
+
+import adminProjectsRouter from "./routes/admin/adminProjectsRouter";
+import connectDB from "./db";
+import adminSkillsRouter from "./routes/admin/adminSkillsRouter";
 
 const app = express();
 
@@ -15,12 +19,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //admin
-app.use("/admin/skills", adminMoviesRouter);
-app.use("/admin/projects", adminMoviesRouter);
+app.use("/skills", adminSkillsRouter);
+app.use("/projects", adminProjectsRouter);
 
-//user
-app.use("/skills", userMoviesRouter);
-app.use("/projects", userWatchListRouter);
 
 app.listen(port, () => {
   console.log("server is running on", port);

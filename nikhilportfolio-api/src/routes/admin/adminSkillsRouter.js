@@ -30,7 +30,7 @@ adminSkillsRouter.post("/add", async (req, res) => {
 
 //view skills
 
-adminSkillsRouter.post("/", async (req, res) => {
+adminSkillsRouter.get("/", async (req, res) => {
   try {
     console.log("working");
 

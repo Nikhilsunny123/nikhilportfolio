@@ -32,7 +32,7 @@ adminProjectsRouter.post(
       console.log("working");
       const { title, description, projectUrl } = req.body;
 
-      const image = await req.files.image[0];
+      const image =  req.file;
       const projectModel = await Project.findOne({ title });
       if (projectModel !== null) {
         res.status(400).json({ message: "Project already exist" });
@@ -58,7 +58,7 @@ adminProjectsRouter.post(
 
 //view projects
 
-adminProjectsRouter.post("/", async (req, res) => {
+adminProjectsRouter.get("/", async (req, res) => {
   try {
     console.log("working");
 

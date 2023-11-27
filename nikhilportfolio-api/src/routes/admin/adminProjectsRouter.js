@@ -1,13 +1,32 @@
 import express from "express";
+import multer from "multer";
+import path from "path";
 import Project from "../../models/projects";
 
 const adminProjectsRouter = express.Router();
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.fieldname === "image") {
+      cb(null, "uploads");
+    } else {
+      cb(new Error("Invalid field name"));
+    }
+  },
+
+  filename: (req, file, cb) => {
+    console.log(file);
+    const extension = path.extname(file.originalname);
+    cb(null, Date.now() + "-" + file.fieldname + extension);
+  },
+});
+
+const upload = multer({ storage });
 //add new project
 adminProjectsRouter.post(
   "/add",
-  upload.single([{ name: "image", maxCount: 1 }]),
-  adminAuthentication,
+  upload.single("image"),
+
   async (req, res) => {
     try {
       console.log("working");
